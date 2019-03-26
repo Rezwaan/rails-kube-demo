@@ -1,6 +1,6 @@
 node {
     stage('Clone repository') {
-        deleteDir() // Delete workspace directory for cleanup
+        //deleteDir() // Delete workspace directory for cleanup
         checkout([
             $class: 'GitSCM',
             branches: [[name: master]],
