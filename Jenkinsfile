@@ -1,8 +1,4 @@
 node {
-    stage('Build image') {
-        app = docker.build("asia.gcr.io/brave-scanner-234908/rails-kube-demo_app")
-    }
-
     stage('Clone repository') {
         deleteDir() // Delete workspace directory for cleanup
         checkout([
@@ -11,7 +7,9 @@ node {
             extensions: [[$class: 'CloneOption', noTags: false]],
             userRemoteConfigs: [[credentialsId: 'github-access', url: 'https://github.com/Rezwaan/rails-kube-demo.git']]])
         }
-
+    stage('Build image') {
+        app = docker.build("asia.gcr.io/brave-scanner-234908/rails-kube-demo_app")
+    }
     stage('Push image') {
     docker.withRegistry('https://asia.gcr.io', 'gcr:pace-config-updated') {
         app.push("${env.BUILD_NUMBER}")
